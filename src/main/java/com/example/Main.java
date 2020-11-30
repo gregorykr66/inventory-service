@@ -28,16 +28,13 @@ public class Main {
     });
     */
 
-    // Gateway service uses:
-    Subscription.Sender globalSender = Service.service(new Subscription[]{
-        new Subscription("display", "display", (body, sender) -> {
-          System.out.println("display: display");
+    Service.service(new Subscription[]{
+        new Subscription("inventory", "fetch-stock", (body, sender) -> {
+          System.out.println("inventory: display");
           System.out.println(body);
-          // Push message over socket to the user
+          sender.send("display", "SESSION_ID,stock,PRODUCT_ID,5");
         })
     });
-    globalSender.send("display", "Everything works!");
-
     SpringApplication.run(Main.class, args);
   }
 
